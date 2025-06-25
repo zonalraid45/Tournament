@@ -11,7 +11,7 @@ def create_swiss():
     # start 5 min from now so players can join
     now        = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
     starts_at  = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    name       = f"KoB Blitz Swiss {now:%Y-%m-%d %H:%M} UTC"
+    name       = f"KoB 3+0 Swiss {now:%m%d %H:%M}"[:30]  # ✅ shortened name
 
     data = {
         "name":           name,
@@ -19,7 +19,7 @@ def create_swiss():
         "clock.increment": 0,
         "startsAt":       starts_at,
         "nbRounds":       ROUNDS,
-        "interval":       15,          # minutes between rounds
+        "interval":       15,
         "variant":        "standard",
         "rated":          "true",
         "description":    "Auto-made by GitHub Actions 💥"
