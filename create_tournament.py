@@ -12,8 +12,8 @@ headers = {"Authorization": f"Bearer {TOKEN}"}
 url     = f"https://lichess.org/api/swiss/new/{TEAM}"
 
 def create_one(idx: int, start_time: datetime.datetime) -> None:
-    # Build a compact ≤30-char name
-    name = f"KoB 3+0 #{idx+1} {start_time:%m%d %H:%M}"[:30]
+    # Build a compact ≤30-char name with only valid characters
+    name = f"KoB 3-0 No{idx+1} {start_time:%m%d %H%M}"[:30]
 
     payload = {
         "name":            name,
@@ -24,17 +24,7 @@ def create_one(idx: int, start_time: datetime.datetime) -> None:
         "interval":        15,
         "variant":         "standard",
         "rated":           "true",
-        "description":     "Auto-made by GitHub Actions 💥"
+        "description":     "Auto-made by GitHub Actions"
     }
 
-    r = requests.post(url, headers=headers, data=payload)
-    if r.status_code == 200:
-        print(f"✅  Tmt #{idx+1} created:", r.json().get("url"))
-    else:
-        print(f"❌  Tmt #{idx+1} error", r.status_code, r.text)
-
-if __name__ == "__main__":
-    first_start = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-    for i in range(NUM_TMT):
-        start = first_start + datetime.timedelta(hours=i * GAP_HRS)
-        create_one(i, start)
+    r = requests.post(url,
