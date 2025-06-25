@@ -1,30 +1,32 @@
 import requests, datetime, os
 
-TOKEN = os.environ["LICHESS_KEY"].strip('"')
-TEAM = "kingdomofblitzplayers"
-ROUNDS = 10
+TOKEN  = os.environ["LICHESS_KEY"].strip('"')    # GitHub secret (quotes OK)
+TEAM   = "kingdomofblitzplayers"                 # team slug
+ROUNDS = 10                                      # Swiss rounds
+CLOCK  = 180                                     # 3 min base time
 
 headers = {"Authorization": f"Bearer {TOKEN}"}
 
 def create_swiss():
-    now = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-    starts_at = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    name = f"KoB Blitz Swiss {now.strftime('%Y-%m-%d %H:%M')} UTC"
+    # start 5 min from now so players can join
+    now        = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
+    starts_at  = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    name       = f"KoB Blitz Swiss {now:%Y-%m-%d %H:%M} UTC"
 
     data = {
-        "name": name,
-        "teamId": TEAM,
-        "clock.limit": 180,
+        "name":           name,
+        "clock.limit":    CLOCK,
         "clock.increment": 0,
-        "startsAt": starts_at,
-        "nbRounds": ROUNDS,
-        "interval": 15,
-        "variant": "standard",
-        "rated": "true",
-        "description": "Auto-made by GitHub Actions 💥",
+        "startsAt":       starts_at,
+        "nbRounds":       ROUNDS,
+        "interval":       15,          # minutes between rounds
+        "variant":        "standard",
+        "rated":          "true",
+        "description":    "Auto-made by GitHub Actions 💥"
     }
 
-    r = requests.post("https://lichess.org/api/swiss", headers=headers, data=data)
+    url = f"https://lichess.org/api/swiss/new/{TEAM}"
+    r   = requests.post(url, headers=headers, data=data)
 
     if r.status_code == 200:
         print("✅  Tournament created:", r.json().get("url"))
