@@ -1,37 +1,40 @@
 import requests, datetime, os
 
-TOKEN  = os.environ["LICHESS_KEY"].strip('"')    # GitHub secret (quotes OK)
-TEAM   = "kingdomofblitzplayers"                 # team slug
-ROUNDS = 10                                      # Swiss rounds
-CLOCK  = 180                                     # 3 min base time
+# ─────────────── Settings ───────────────
+TOKEN   = os.environ["LICHESS_KEY"].strip('"')     # GitHub secret
+TEAM    = "kingdomofblitzplayers"                  # team slug
+ROUNDS  = 10                                       # Swiss rounds
+CLOCK   = 180                                      # 3 + 0 blitz
+NUM_TMT = 4                                        # how many to create
+GAP_HRS = 2                                        # gap between starts
 
 headers = {"Authorization": f"Bearer {TOKEN}"}
+url     = f"https://lichess.org/api/swiss/new/{TEAM}"
 
-def create_swiss():
-    # start 5 min from now so players can join
-    now        = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-    starts_at  = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    name       = f"KoB 3+0 Swiss {now:%m%d %H:%M}"[:30]  # ✅ shortened name
+def create_one(idx: int, start_time: datetime.datetime) -> None:
+    # Build a compact ≤30-char name
+    name = f"KoB 3+0 #{idx+1} {start_time:%m%d %H:%M}"[:30]
 
-    data = {
-        "name":           name,
-        "clock.limit":    CLOCK,
+    payload = {
+        "name":            name,
+        "clock.limit":     CLOCK,
         "clock.increment": 0,
-        "startsAt":       starts_at,
-        "nbRounds":       ROUNDS,
-        "interval":       15,
-        "variant":        "standard",
-        "rated":          "true",
-        "description":    "Auto-made by GitHub Actions 💥"
+        "startsAt":        start_time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "nbRounds":        ROUNDS,
+        "interval":        15,
+        "variant":         "standard",
+        "rated":           "true",
+        "description":     "Auto-made by GitHub Actions 💥"
     }
 
-    url = f"https://lichess.org/api/swiss/new/{TEAM}"
-    r   = requests.post(url, headers=headers, data=data)
-
+    r = requests.post(url, headers=headers, data=payload)
     if r.status_code == 200:
-        print("✅  Tournament created:", r.json().get("url"))
+        print(f"✅  Tmt #{idx+1} created:", r.json().get("url"))
     else:
-        print("❌  Error", r.status_code, r.text)
+        print(f"❌  Tmt #{idx+1} error", r.status_code, r.text)
 
 if __name__ == "__main__":
-    create_swiss()
+    first_start = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
+    for i in range(NUM_TMT):
+        start = first_start + datetime.timedelta(hours=i * GAP_HRS)
+        create_one(i, start)
