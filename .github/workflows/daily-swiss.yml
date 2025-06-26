@@ -1,20 +1,13 @@
 name: KoB 3+0 Swiss – 4 × Daily
 
-# ─────────────── Triggers ───────────────
 on:
-  # UTC times that map to 00 / 06 / 12 / 18 IST
-  schedule:
-    - cron: '30 18 * * *'   # 00:00 IST
-    - cron: '30 0  * * *'   # 06:00 IST
-    - cron: '30 6  * * *'   # 12:00 IST
-    - cron: '30 12 * * *'   # 18:00 IST
-  workflow_dispatch:        # manual “Run workflow” button
+  # manual “Run workflow” button only
+  workflow_dispatch:
 
-# ─────────────── Job ───────────────
 jobs:
   create-swiss:
     runs-on: ubuntu-latest
-    concurrency:            # never let two runs overlap
+    concurrency:
       group: kob-swiss
       cancel-in-progress: true
 
@@ -32,5 +25,5 @@ jobs:
 
       - name: Run tournament script
         env:
-          LICHESS_KEY: ${{ secrets.LICHESS_KEY }}   # your token (quotes OK)
+          LICHESS_KEY: ${{ secrets.LICHESS_KEY }}
         run: python create_tournament.py
