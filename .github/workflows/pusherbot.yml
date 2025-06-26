@@ -1,0 +1,31 @@
+name: Trigger Lichess Team Message
+
+on:
+  # Runs every day at 20:39 IST  (15:09 UTC)
+  schedule:
+    - cron: '9 15 * * *'
+
+jobs:
+  pusher:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set Git identity
+        run: |
+          git config user.name  "Lichess Bot"
+          git config user.email "lichess-bot@example.com"
+
+      - name: Update trigger file
+        run: |
+          echo "Triggered at $(date -u)" >> .trigger.log
+
+      - name: Commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add .trigger.log
+          git commit -m "🤖 Auto-push at $(date -u)" || echo "No changes to commit"
+          git push
