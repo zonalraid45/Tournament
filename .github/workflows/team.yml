@@ -1,26 +1,26 @@
 name: Send Lichess Team Message
 
 on:
+  # fire when the pusher bot updates .trigger.log
+  push:
+    paths:
+      - .trigger.log
+
+  # (optional) still fire on schedule in case cron starts working
   schedule:
-    - cron: '58 14 * * *'  # 13:47 UTC = 7:17 PM IST
-  workflow_dispatch: {}
-  
+    - cron: '20 15 * * *'   # 20:40 IST = 15:10 UTC
+
+  workflow_dispatch: {}     # manual trigger button
+
 jobs:
   message:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Send message
-        env:
+      - run: pip install requests
+      - env:
           LICHESS_KEY: ${{ secrets.LICHESS_KEY }}
         run: python send_team_msg.py
