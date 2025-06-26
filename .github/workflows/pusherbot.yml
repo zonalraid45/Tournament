@@ -3,7 +3,7 @@ name: Trigger Lichess Team Message
 on:
   # 20 : 39 IST  →  15 : 09 UTC  every day
   schedule:
-    - cron: '31 15 * * *'
+    - cron: '51 15 * * *'
 
 jobs:
   pusher:
