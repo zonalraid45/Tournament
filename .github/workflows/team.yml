@@ -2,9 +2,9 @@ name: Send Lichess team message
 
 on:
   schedule:
-    # 7:00 PM IST = 13:30 UTC
-    - cron: '30 13 26 6 *'         # June 26th at 7:00 PM IST
-  workflow_dispatch: {}            # Optional manual trigger
+    # 7:07 PM IST = 13:37 UTC on June 26
+    - cron: '37 13 26 6 *'
+  workflow_dispatch: {}  # Optional manual trigger
 
 env:
   TEAM_ID: testingsboy
