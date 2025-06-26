@@ -5,7 +5,7 @@ TOKEN   = os.environ["LICHESS_KEY"].strip('"')     # GitHub secret
 TEAM    = "kingdomofblitzplayers"                  # team slug
 ROUNDS  = 10                                       # Swiss rounds
 CLOCK   = 180                                      # 3 + 0 blitz
-NUM_TMT = 4                                        # how many to create
+NUM_TMT = 12                                        # how many to create
 GAP_HRS = 2                                        # gap between starts
 
 headers = {"Authorization": f"Bearer {TOKEN}"}
