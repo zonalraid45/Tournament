@@ -1,31 +1,39 @@
 name: Trigger Lichess Team Message
 
 on:
-  # Runs every day at 20:39 IST  (15:09 UTC)
+  # 20 : 39 IST  →  15 : 09 UTC  every day
   schedule:
-    - cron: '20 15 * * *'
+    - cron: '31 15 * * *'
 
 jobs:
   pusher:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout default branch (with push credentials)
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # default, but explicit for clarity
 
-      - name: Set Git identity
+      - name: Set bot identity
         run: |
-          git config user.name  "Lichess Bot"
-          git config user.email "lichess-bot@example.com"
+          git config user.name  "lichess-autobot"
+          git config user.email "bot@users.noreply.github.com"
 
       - name: Update trigger file
         run: |
-          echo "Triggered at $(date -u)" >> .trigger.log
+          printf "Triggered at %s UTC\n" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> .trigger.log
 
-      - name: Commit and push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit & push
         run: |
-          git add .trigger.log
-          git commit -m "🤖 Auto-push at $(date -u)" || echo "No changes to commit"
-          git push
+          if git diff --quiet .trigger.log; then
+            echo "No changes to commit."
+          else
+            git add .trigger.log
+            git commit -m "🤖 auto-push $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push          # uses the token already embedded by checkout
+          fi
+        env:
+          # The default GITHUB_TOKEN already has write perms if
+          # Settings ▸ Actions ▸ General ▸ “Workflow permissions” = Read & write
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
