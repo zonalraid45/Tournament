@@ -13,7 +13,7 @@ url     = f"https://lichess.org/api/swiss/new/{TEAM}"
 
 def create_one(idx: int, start_time: datetime.datetime) -> None:
     # Build a compact ≤30-char name with only valid characters
-    name = f"KoB 3-0 No{idx+1} {start_time:%m%d %H%M}"[:30]
+    name = f"KoB Daily Blitz swiss"[:30]
 
     payload = {
         "name":            name,
