@@ -51,7 +51,7 @@ headers = {
     "Content-Type": "application/x-www-form-urlencoded",
 }
 
-resp = requests.post(url, headers=headers, data={"msg": MESSAGE}, timeout=10)
+resp = requests.post(url, headers=headers, data={"text": MESSAGE}, timeout=10)
 
 # ──────────────────────────────────────────────────────────────────────
 # 5. Report result
