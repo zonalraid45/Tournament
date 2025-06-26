@@ -2,7 +2,7 @@ name: Send Lichess Team Message
 
 on:
   schedule:
-    - cron: '48 13 * * *'  # 13:47 UTC = 7:17 PM IST
+    - cron: '54 13 * * *'  # 13:47 UTC = 7:17 PM IST
   workflow_dispatch: {}
   
 jobs:
