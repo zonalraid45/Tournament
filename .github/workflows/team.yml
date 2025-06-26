@@ -2,9 +2,9 @@ name: Send Lichess Team Message
 
 on:
   schedule:
-    - cron: '43 13 26 6 *'    # 7:13 PM IST on 26 June
+    - cron: '48 13 * * *'  # 13:47 UTC = 7:17 PM IST
   workflow_dispatch: {}
-
+  
 jobs:
   message:
     runs-on: ubuntu-latest
