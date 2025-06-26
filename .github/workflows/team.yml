@@ -1,25 +1,26 @@
-name: Send Lichess team message
+name: Send Lichess Team Message
 
 on:
   schedule:
-    # 7:07 PM IST = 13:37 UTC on June 26
-    - cron: '37 13 26 6 *'
-  workflow_dispatch: {}  # Optional manual trigger
-
-env:
-  TEAM_ID: testingsboy
-  MESSAGE: "⚠️ Reminder: Tournament starts at 7:30 PM IST! Join: https://lichess.org/tournament/ABC123"
+    - cron: '43 13 26 6 *'    # 7:13 PM IST on 26 June
+  workflow_dispatch: {}
 
 jobs:
-  notify:
+  message:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Send team message via Lichess API
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send message
         env:
-          TOKEN: ${{ secrets.LICHESS_KEY }}
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            --data-urlencode "msg=$MESSAGE" \
-            https://lichess.org/api/team/$TEAM_ID/pm-all
+          LICHESS_KEY: ${{ secrets.LICHESS_KEY }}
+        run: python send_team_msg.py
