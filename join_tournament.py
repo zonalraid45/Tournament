@@ -12,7 +12,7 @@ TEAM_ID   – team slug                                (default: royalracer-fans
 import os, sys, json, requests
 
 # ──────────────── CONSTANTS ────────────────
-TOKEN   = os.environ["TOR"]              # ← raw token, exactly as stored in GitHub Secrets
+TOKEN   = os.environ["TOR"].strip().strip('"').strip("'")  # removes whitespace + accidental quotes
 TMT_ID  = os.getenv("TMT_ID",  "doF1DMaz")
 TEAM_ID = os.getenv("TEAM_ID", "royalracer-fans")
 
@@ -20,6 +20,10 @@ HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Accept":        "application/json",
 }
+
+# ──────────────── DEBUG CHECKS ────────────────
+print(f"🔎 Token prefix: {TOKEN[:3]}")
+print(f"🔎 Token length: {len(TOKEN)}")
 
 # ──────────────── HELPERS ────────────────
 def get_username() -> str:
@@ -31,7 +35,7 @@ def get_username() -> str:
 def is_member(username: str) -> bool:
     """
     Return True if the account already belongs to TEAM_ID.
-    Uses the lightweight ND-JSON stream /api/team/of/{username}.0
+    Uses the lightweight ND-JSON stream /api/team/of/{username}.
     """
     url = f"https://lichess.org/api/team/of/{username}"
     r   = requests.get(url,
@@ -46,7 +50,7 @@ def is_member(username: str) -> bool:
 def join_team() -> None:
     """
     POST /team/{TEAM_ID}/join – works for open teams (200) or
-    files a join request when approval is required (202).1
+    files a join request when approval is required (202).
     """
     url = f"https://lichess.org/team/{TEAM_ID}/join"
     r   = requests.post(url, headers=HEADERS, timeout=15)
@@ -56,7 +60,7 @@ def join_team() -> None:
 
 def join_tournament() -> None:
     """
-    POST /api/tournament/{TMT_ID}/join with the team slug for a battle.2
+    POST /api/tournament/{TMT_ID}/join with the team slug for a battle.
     """
     url = f"https://lichess.org/api/tournament/{TMT_ID}/join"
     r   = requests.post(url, headers=HEADERS, data={"team": TEAM_ID}, timeout=15)
@@ -66,13 +70,16 @@ def join_tournament() -> None:
 
 # ──────────────── MAIN FLOW ────────────────
 if __name__ == "__main__":
-    user = get_username()
-    print(f"🔐  authenticated as {user}")
+    try:
+        user = get_username()
+        print(f"🔐  authenticated as {user}")
+    except Exception as e:
+        sys.exit(f"❌  Failed to authenticate – {e}")
 
     if is_member(user):
         print(f"✅  already in team '{TEAM_ID}' – skipping team join.")
     else:
         print(f"ℹ️  not in team '{TEAM_ID}' – trying to join the team first…")
-        join_team()                       # executed only when membership is missing
+        join_team()
 
-    join_tournament()                    # always executed last
+    join_tournament()
