@@ -3,15 +3,15 @@
 Auto-join a Lichess team-battle arena.
 
 Environment variables (NO quotes):
-  TOR       – personal token   (scopes: tournament:write, team:write)
-  TMT_ID    – 8-character arena / team-battle ID   (default: doF1DMaz)
-  TEAM_ID   – team slug                            (default: royalracer-fans)
+  TOR       – personal token  (scopes: tournament:write, team:write)
+  TMT_ID    – arena / team-battle ID   (default: doF1DMaz)
+  TEAM_ID   – team slug                (default: royalracer-fans)
 """
 
 import os, sys, requests
 
 # ───────── CONSTANTS ─────────
-TOKEN   = os.environ["TOR"].strip().strip('"').strip("'")   # trims stray whitespace/quotes
+TOKEN   = os.environ["TOR"].strip().strip('"').strip("'")
 TMT_ID  = os.getenv("TMT_ID",  "doF1DMaz")
 TEAM_ID = os.getenv("TEAM_ID", "royalracer-fans")
 
@@ -31,28 +31,24 @@ def get_username() -> str:
     return r.json()["username"]
 
 def is_member(username: str) -> bool:
-    """
-    Fast 200/404 membership probe (no JSON parsing).
-    200 → already in team, 404 → not in team.
-    """
+    """Quick 200/404 check."""
     url = f"https://lichess.org/api/team/{TEAM_ID}/user/{username}"
     r   = requests.get(url, headers=HEADERS, timeout=10)
     return r.status_code == 200
 
 def join_team() -> None:
     """
-    Join the team. 200 = open-join success, 202 = request filed for approval.
+    POST /api/team/{TEAM_ID}/request
+      200 → joined (open team)
+      202 → request filed (closed team)
     """
-    url = f"https://lichess.org/api/team/{TEAM_ID}/join"
+    url = f"https://lichess.org/api/team/{TEAM_ID}/request"
     r   = requests.post(url, headers=HEADERS, timeout=15)
     print("📩 team-join:", r.status_code, r.text.strip() or "(no body)")
     if r.status_code not in (200, 202):
         sys.exit("❌ could not join the team")
 
 def join_tournament() -> None:
-    """
-    Join the team-battle tournament.
-    """
     url = f"https://lichess.org/api/tournament/{TMT_ID}/join"
     r   = requests.post(url, headers=HEADERS, data={"team": TEAM_ID}, timeout=15)
     print("🏁 tmt-join :", r.status_code, r.text.strip() or "(no body)")
