@@ -18,21 +18,21 @@ jobs:
 
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: 🐍 Setup Python
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      - name: 🔧 Install requirements (if any)
+      - name: 🔧 Install dependencies
         run: |
-          pip install --upgrade pip
-          # pip install -r requirements.txt  # Uncomment if needed
+          python -m pip install --upgrade pip
+          pip install requests          # ← installs the missing library
 
       - name: 🤖 Run join_tournament.py
         env:
-          TOR: ${{ secrets.TOR }}
+          TOR: ${{ secrets.TOR }}              # <— token, no quotes
           TMT_ID: ${{ github.event.inputs.TMT_ID }}
           TEAM_ID: ${{ github.event.inputs.TEAM_ID }}
         run: python3 join_tournament.py
