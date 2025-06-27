@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo   # Python ≥3.9
 
 # ─────────────── Settings ───────────────
 TOKEN   = os.environ["LICHESS_KEY"].strip('"')
-TEAM    = "testingsboy"
+TEAM    = "testingsgirl"
 ROUNDS  = 8
 INTERVAL = 30                   # seconds between rounds
 IST     = ZoneInfo("Asia/Kolkata")
