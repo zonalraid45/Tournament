@@ -1,0 +1,38 @@
+name: Join Lichess Tournament
+
+on:
+  workflow_dispatch:
+    inputs:
+      TMT_ID:
+        description: "Tournament ID (e.g. doF1DMaz)"
+        required: true
+        default: "doF1DMaz"
+      TEAM_ID:
+        description: "Team slug (e.g. royalracer-fans)"
+        required: true
+        default: "royalracer-fans"
+
+jobs:
+  join:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 🔧 Install requirements (if any)
+        run: |
+          pip install --upgrade pip
+          # pip install -r requirements.txt  # Uncomment if needed
+
+      - name: 🤖 Run join_tournament.py
+        env:
+          TOR: ${{ secrets.TOR }}
+          TMT_ID: ${{ github.event.inputs.TMT_ID }}
+          TEAM_ID: ${{ github.event.inputs.TEAM_ID }}
+        run: python3 join_tournament.py
