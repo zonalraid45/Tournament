@@ -1,0 +1,35 @@
+name: Join Lichess Tournament
+
+on:
+  workflow_dispatch:
+    inputs:
+      tournament_id:
+        description: "Arena/Team-battle ID (8 chars)"
+        required: true
+        default: doF1DMaz
+      team_id:
+        description: "Team slug"
+        required: true
+        default: royalracer-fans
+
+jobs:
+  join:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (optional)
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install deps
+        run: pip install requests
+
+      - name: Join the tournament
+        env:
+          TOR: ${{ secrets.TOR }}
+          TMT_ID: ${{ github.event.inputs.tournament_id }}
+          TEAM_ID: ${{ github.event.inputs.team_id }}
+        run: python join_tournament.py
