@@ -1,72 +1,33 @@
 #!/usr/bin/env python3
 """
-Auto-join a Lichess team-battle arena.
+Join a Lichess arena (team-battle) tournament.
 
-Environment variables (NO quotes):
-  TOR       – personal token  (scopes: tournament:write, team:write)
-  TMT_ID    – arena / team-battle ID   (default: doF1DMaz)
-  TEAM_ID   – team slug                (default: royalracer-fans)
+Env-vars expected
+-----------------
+TOR          – your personal Lichess OAuth token (with *tournament:write* scope)
+TMT_ID       – the 8-character tournament ID, e.g. "doF1DMaz"
+TEAM_ID      – the team slug, e.g. "royalracer-fans"
 """
 
-import os, sys, requests
+import os
+import sys
+import requests
 
-# ───────── CONSTANTS ─────────
-TOKEN   = os.environ["TOR"].strip().strip('"').strip("'")
-TMT_ID  = os.getenv("TMT_ID",  "doF1DMaz")
+TOKEN   = os.environ["TOR"].strip('"')
+TMT_ID  = os.getenv("TMT_ID", "doF1DMaz")
 TEAM_ID = os.getenv("TEAM_ID", "royalracer-fans")
 
-HEADERS = {
-    "Authorization": f"Bearer {TOKEN}",
-    "Accept":        "application/json",
-}
+URL = f"https://lichess.org/api/tournament/{TMT_ID}/join"   # arena & team-battle endpoint
 
-# ───────── DEBUG ─────────
-print(f"🔎 Token prefix: {TOKEN[:3]}")
-print(f"🔎 Token length: {len(TOKEN)}")
+resp = requests.post(
+    URL,
+    headers={"Authorization": f"Bearer {TOKEN}"},
+    data={"team": TEAM_ID},          # required for team battles
+    timeout=15,
+)
 
-# ───────── HELPERS ─────────
-def get_username() -> str:
-    r = requests.get("https://lichess.org/api/account", headers=HEADERS, timeout=10)
-    r.raise_for_status()
-    return r.json()["username"]
+print("HTTP", resp.status_code)
+print(resp.text)
 
-def is_member(username: str) -> bool:
-    """Quick 200/404 check."""
-    url = f"https://lichess.org/api/team/{TEAM_ID}/user/{username}"
-    r   = requests.get(url, headers=HEADERS, timeout=10)
-    return r.status_code == 200
-
-def join_team() -> None:
-    """
-    POST /api/team/{TEAM_ID}/request
-      200 → joined (open team)
-      202 → request filed (closed team)
-    """
-    url = f"https://lichess.org/api/team/{TEAM_ID}/request"
-    r   = requests.post(url, headers=HEADERS, timeout=15)
-    print("📩 team-join:", r.status_code, r.text.strip() or "(no body)")
-    if r.status_code not in (200, 202):
-        sys.exit("❌ could not join the team")
-
-def join_tournament() -> None:
-    url = f"https://lichess.org/api/tournament/{TMT_ID}/join"
-    r   = requests.post(url, headers=HEADERS, data={"team": TEAM_ID}, timeout=15)
-    print("🏁 tmt-join :", r.status_code, r.text.strip() or "(no body)")
-    if r.status_code != 200:
-        sys.exit("❌ could not join the tournament")
-
-# ───────── MAIN ─────────
-if __name__ == "__main__":
-    try:
-        user = get_username()
-        print(f"🔐 authenticated as {user}")
-    except Exception as e:
-        sys.exit(f"❌ authentication failed – {e}")
-
-    if is_member(user):
-        print(f"✅ already in team '{TEAM_ID}' – skipping team join.")
-    else:
-        print(f"ℹ️ joining team '{TEAM_ID}' …")
-        join_team()
-
-    join_tournament()
+if resp.status_code != 200:
+    sys.exit("❌  join failed")
