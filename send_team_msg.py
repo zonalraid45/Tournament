@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Broadcast “Hi guys” to the Lichess team `testingsboy`.
+Broadcast “Hi guys” to the Lichess team `testingsgirl`.
 Requires a secret LICHESS_KEY holding a token with team:write scope.
 """
 
@@ -10,7 +10,7 @@ token = os.getenv("LICHESS_KEY", "").strip('"').strip("'")
 if not token:
     sys.exit("❌  LICHESS_KEY is missing!")
 
-TEAM_ID = "testingsboy"
+TEAM_ID = "testingsgirl"
 MESSAGE = "Hi guys"
 
 # ── sanity-check the token ────────────────────────────────────────────
