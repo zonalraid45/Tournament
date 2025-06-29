@@ -1,0 +1,30 @@
+name: Create Polyglot Book
+
+on:
+  workflow_dispatch:          # run manually from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️  Checkout repo
+        uses: actions/checkout@v4
+
+      - name: 🛠️  Install Polyglot
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y polyglot
+
+      - name: 📚  Build Backup.bin from PGN
+        run: |
+          polyglot make-book \
+            -p backup.pgn \        # ← uses the file you committed
+            -b Backup.bin \
+            -t 4                   # 4-ply hash; adjust if needed
+
+      - name: 📦  Upload Backup.bin
+        uses: actions/upload-artifact@v4
+        with:
+          name: Backup.bin
+          path: Backup.bin
