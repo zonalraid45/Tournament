@@ -1,27 +1,28 @@
 name: Create Polyglot Book
-
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 🛎️  Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🛠️  Install Polyglot
+      - name: Install Polyglot
         run: |
           sudo apt-get update
           sudo apt-get install -y polyglot
 
-      - name: 📚  Build Backup.bin from PGN
+      - name: Build Backup.bin
         run: |
-          # create the book (3. Bb5 a6 line only)
-          polyglot make-book -pgn backup.pgn -bin Backup.bin -max-ply 10
+          # -min-score 0 and -min-game 1 ensure tiny books aren’t filtered
+          polyglot make-book \
+            -pgn backup.pgn \
+            -bin Backup.bin \
+            -max-ply 10 \
+            -min-score 0 \
+            -min-game 1
 
-      - name: 📦  Upload Backup.bin
+      - name: Upload Backup.bin
         uses: actions/upload-artifact@v4
         with:
           name: Backup.bin
