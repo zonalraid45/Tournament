@@ -1,0 +1,56 @@
+name: Split PGN by Color Only (No Filter)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  split-pgn:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          pip install chess
+
+      - name: Split PGN into white.pgn and black.pgn
+        run: |
+          cat > split_by_color.py <<'EOF'
+          import chess.pgn
+
+          with open("utsa.pgn") as pgn:
+              white_file = open("white.pgn", "w")
+              black_file = open("black.pgn", "w")
+
+              while True:
+                  game = chess.pgn.read_game(pgn)
+                  if game is None:
+                      break
+
+                  white = game.headers.get("White", "")
+                  black = game.headers.get("Black", "")
+
+                  if white == "Nikitosikbot_v2":
+                      print(game, file=white_file)
+                      print("\n", file=white_file)
+                  elif black == "Nikitosikbot_v2":
+                      print(game, file=black_file)
+                      print("\n", file=black_file)
+
+              white_file.close()
+              black_file.close()
+          EOF
+
+          python3 split_by_color.py
+
+      - name: Upload PGN artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: white_and_black_pgns
+          path: |
+            white.pgn
+            black.pgn
