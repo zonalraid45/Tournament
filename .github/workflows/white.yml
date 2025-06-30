@@ -1,0 +1,33 @@
+name: Make White Opening Book
+
+on:
+  workflow_dispatch:  # Trigger manually
+
+jobs:
+  make-white-book:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Polyglot CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y polyglot
+
+      - name: Build white.bin from white.pgn
+        run: |
+          polyglot make-book \
+            -pgn white.pgn \
+            -bin white.bin \
+            -max-ply 40 \
+            -min-game 2 \
+            -depth 10 \
+            -weight true
+
+      - name: Upload white.bin
+        uses: actions/upload-artifact@v4
+        with:
+          name: white.bin   # ← artifact label now matches file name
+          path: white.bin
