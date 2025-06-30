@@ -1,33 +1,35 @@
 name: Make White Opening Book
 
 on:
-  workflow_dispatch:  # Trigger manually
+  workflow_dispatch:     # run manually from the Actions tab
 
 jobs:
   make-white-book:
     runs-on: ubuntu-latest
 
     steps:
+      # 1 – get your repo (white.pgn must be in the root).
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Polyglot CLI
+      # 2 – install Polyglot 2.0.4 from Ubuntu repos.
+      - name: Install Polyglot
         run: |
           sudo apt-get update
-          sudo apt-get install -y polyglot
+          sudo apt-get install -y polyglot   # provides polyglot 2.0.4
 
-      - name: Build white.bin from white.pgn
+      # 3 – build white.bin from white.pgn with safe, supported flags.
+      - name: Build white.bin
         run: |
           polyglot make-book \
-            -pgn white.pgn \
-            -bin white.bin \
-            -max-ply 40 \
-            -min-game 2 \
-            -depth 10 \
-            -weight true
+            -pgn white.pgn \      # input PGN (already in repo root)
+            -bin white.bin \      # output book
+            -max-ply 40 \         # keep first 20 full moves
+            -min-game 2           # discard lines seen only once
 
+      # 4 – publish the result so you can download it.
       - name: Upload white.bin
         uses: actions/upload-artifact@v4
         with:
-          name: white.bin   # ← artifact label now matches file name
+          name: white.bin         # artifact label matches the file name
           path: white.bin
