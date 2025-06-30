@@ -18,10 +18,10 @@ jobs:
 
       - name: Build white.bin (up to 80 plies = 40 moves)
         run: |
-          polyglot make-book -pgn black.pgn -bin black.bin -min-game 2 -max-ply 100
+          polyglot make-book -pgn white.pgn -bin white.bin -min-game 2 -max-ply 100
 
       - name: Upload black.bin
         uses: actions/upload-artifact@v4
         with:
-          name: black.bin
-          path: black.bin
+          name: white.bin
+          path: white.bin
