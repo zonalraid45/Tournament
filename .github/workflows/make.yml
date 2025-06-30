@@ -1,0 +1,34 @@
+name: Download Winning Games of Nikitosikbot_v2 (PGN)
+
+on:
+  workflow_dispatch:      # run by hand whenever you need
+
+jobs:
+  download-wins:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Calculate “since” timestamp (1 Mar 2025 00:00 UTC)
+        id: time
+        run: |
+          SINCE=$(date -d "2025-03-01T00:00:00Z" +%s)000
+          echo "since=$SINCE" >> "$GITHUB_OUTPUT"
+
+      - name: Download only WINS (bullet + blitz + rapid + classical) as PGN
+        run: |
+          curl -L "https://lichess.org/api/games/user/Nikitosikbot_v2" \
+            -G \
+            --data-urlencode "since=${{ steps.time.outputs.since }}" \
+            -d "perfType=bullet,blitz,rapid,classical" \
+            -d "result=win" \
+            -H "Accept: application/x-chess-pgn" \
+            -o winning_games.pgn
+
+      - name: Upload PGN file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nikitosikbot_winning_games_pgn
+          path: winning_games.pgn
