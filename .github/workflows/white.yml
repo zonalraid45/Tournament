@@ -1,34 +1,34 @@
-name: Make White Opening Book           # Workflow title in the Actions tab
+name: Make Black Opening Book           # Workflow title in the Actions tab
 
 on:
-  workflow_dispatch:                    # Manual trigger (click “Run workflow”)
+  workflow_dispatch:                    # Manual trigger (“Run workflow”)
 
 jobs:
-  make-white-book:
-    runs-on: ubuntu-latest              # Free Ubuntu runner on every execution
+  make-black-book:
+    runs-on: ubuntu-latest              # Free Ubuntu runner for each execution
 
     steps:
-    # 1️⃣ Pull the repo so we have whiter.pgn
+    # 1️⃣ Pull the repo so we have blacker.pgn
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2️⃣ Get the Polyglot utility from Ubuntu’s package repo
+    # 2️⃣ Install the Polyglot utility
     - name: Install Polyglot
       run: |
         sudo apt-get update
         sudo apt-get install -y polyglot
 
     # 3️⃣ Build the opening book
-    - name: Build white.bin from whiter.pgn
+    - name: Build black.bin from blacker.pgn
       run: |
-        # -pgn   → input PGN (your loss-free file)
-        # -bin   → output Polyglot book
+        # -pgn  → input PGN (loss-free Black games)
+        # -bin  → output Polyglot book
         # -min-game 1 keeps every move that occurred at least once
-        polyglot make-book -pgn whiter.pgn -bin white.bin -min-game 1
+        polyglot make-book -pgn blacker.pgn -bin black.bin -min-game 1
 
-    # 4️⃣ Make the resulting book downloadable from the workflow page
-    - name: Upload white.bin
+    # 4️⃣ Upload the resulting book so you can download it
+    - name: Upload black.bin
       uses: actions/upload-artifact@v4
       with:
-        name: white-book                # Artifact name shown in UI
-        path: white.bin                 # File to upload
+        name: black-book               # Artifact name shown in the UI
+        path: black.bin                # File to upload
