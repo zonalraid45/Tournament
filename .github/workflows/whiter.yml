@@ -27,5 +27,5 @@ jobs:
     - name: ⬆️  Upload whiter.pgn as build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: whiter-pgn
-        path: whiter.pgn
+        name: blacker-pgn
+        path: blacker.pgn
