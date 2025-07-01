@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import chess.pgn, sys, pathlib
 
-IN  = pathlib.Path("white.pgn")
-OUT = pathlib.Path("whiter.pgn")
+IN  = pathlib.Path("black.pgn")
+OUT = pathlib.Path("blacker.pgn")
 BOT = "Nikitosikbot_v2"
 
 with IN.open() as fin, OUT.open("w") as fout:
