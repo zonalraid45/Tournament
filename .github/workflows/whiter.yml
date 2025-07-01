@@ -1,0 +1,31 @@
+name: Build whiter.pgn
+
+on:
+  workflow_dispatch:   # manual run
+  push:                # or build on every push to main
+    branches: [main]
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Check out code
+      uses: actions/checkout@v4
+
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: 📦 Install python-chess
+      run: python -m pip install --no-cache-dir chess
+
+    - name: ✂️  Filter losing games
+      run: python filter_games.py
+
+    - name: ⬆️  Upload whiter.pgn as build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: whiter-pgn
+        path: whiter.pgn
