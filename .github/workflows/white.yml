@@ -24,11 +24,11 @@ jobs:
         # -pgn  → input PGN (loss-free Black games)
         # -bin  → output Polyglot book
         # -min-game 1 keeps every move that occurred at least once
-        polyglot make-book -pgn blacker.pgn -bin black.bin -min-game 1
+        polyglot make-book -pgn win.pgn -bin win.bin -min-game 1
 
     # 4️⃣ Upload the resulting book so you can download it
     - name: Upload black.bin
       uses: actions/upload-artifact@v4
       with:
-        name: black-book               # Artifact name shown in the UI
-        path: black.bin                # File to upload
+        name: win-book               # Artifact name shown in the UI
+        path: win.bin                # File to upload
