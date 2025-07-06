@@ -169,25 +169,47 @@
 
 1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. Bxc6 dxc6 6. O-O Bg4 7. h3 Bh5 8. g4 Nxg4 9. hxg4 Bxg4 10. Be3 Be7 11. Kg2 f5 12. Qe1 Bxf3+ 13. Kxf3 f4 14. Bd2 Qd7 15. Ke2 g5 16. Bc3 Bf6 17. Nd2 h5 18. Rh1 g4 19. Nc4 Qe6 20. f3 O-O-O 21. Qf2 Kb8 22. a3 g3 23. Qg2 Rdg8 24. Qh3 Qe7 25. Rag1 h4 26. b4 b6 27. Kf1 a5 28. Kg2 Rd8 29. Rb1 a4 30. Nb2 b5 31. Nd1 Kb7 32. Re1 Rh5 33. Bb2 Qf7 34. Nc3 Be7 35. Red1 Ka6 36. Ne2 Kb7 37. Bc3 Qa2 38. Rb2 Qg8 39. Rd2 Qf7 40. Rb1 Qa2 41. Rbd1 Rf8 42. Ra1 Qg8 43. d4 Rd8 44. dxe5 Rxd2 45. Bxd2 Qc4 46. Re1 Qxc2 47. Bxf4 Rh7 48. e6 Qb2 49. Qf5 h3+ 50. Kh1 Qxa3 51. Bxg3 Rg7 52. e5 Bxb4 53. Rb1 Rxg3 54. Nxg3 Qa2 55. Rg1 Bc5 56. Qxh3 Bxg1 57. Kxg1 Qa1+ 58. Qf1 Qxe5 59. Ne4 Kb8 60. Qc1 Qxe6 61. Qc3 Ka7 62. Qd4+ Kb8 63. Qh8+ Ka7 64. Qd4+ c5 65. Nxc5 Qd6 66. Qb4 Qd1+ 67. Kf2 Kb6 68. Qc3 Qd5 69. Ne4 c5 70. Qa3 Qc4 71. Ke3 Qc2 72. Nd2 b4 73. Qa1 Kb5 74. Qe5 Qc3+ 75. Qxc3 bxc3 76. Nb1 Kc4 77. Na3+ Kb3 78. Kd3 Kxa3 79. Kxc3 Ka2 80. Kc2 Ka1 81. f4 c4 82. f5 c3 83. Kxc3 a3 84. Kc2 a2 85. f6 1/2-1/2
 
-
-[Event "HyperWave No.10 Team Battle"]
-[Site "https://lichess.org/ZHDVX5fy"]
-[Date "2025.07.05"]
+[Event "13th OceanBullet Team Battle"]
+[Site "https://lichess.org/OM6CLX9W"]
+[Date "2025.07.06"]
 [White "BOT_Stockfish13"]
 [Black "Endogenetic-Bot"]
 [Result "1/2-1/2"]
-[GameId "ZHDVX5fy"]
-[UTCDate "2025.07.05"]
-[UTCTime "13:44:55"]
+[GameId "OM6CLX9W"]
+[UTCDate "2025.07.06"]
+[UTCTime "12:05:31"]
 [WhiteElo "3198"]
 [BlackElo "3201"]
 [WhiteTitle "BOT"]
 [BlackTitle "BOT"]
 [Variant "Standard"]
-[TimeControl "30+0"]
+[TimeControl "60+0"]
 [ECO "C65"]
 [Opening "Ruy Lopez: Berlin Defense"]
 [Termination "Normal"]
 
-1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. Bxc6 dxc6 6. O-O Bg4 7. h3 Bh5 8. g4 Nxg4 9. hxg4 Bxg4 10. Be3 Be7 11. Kg2 f5 12. Qe1 Bxf3+ 13. Kxf3 f4 14. Bd2 Qd7 15. Ke2 g5 16. Bc3 Bf6 17. Nd2 h5 18. Rh1 g4 19. Nc4 Qe6 20. f3 O-O-O 21. Qf2 Kb8 22. a3 g3 23. Qg2 Rdg8 24. Qh3 Qe7 25. Rag1 h4 26. b4 b6 27. Kf1 a5 28. Kg2 Rd8 29. Rb1 a4 30. Nb2 b5 31. Nd1 Kb7 32. Re1 Rh5 33. Bb2 Qf7 34. Nc3 Be7 35. Red1 Ka6 36. Ne2 Kb7 37. Rd2 Qa2 38. Nc3 Qg8 39. Ne2 Qa2 40. Nc3 Qg8 41. Rbd1 Qf8 42. d4 Rxd4 43. Rxd4 exd4 0-1
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. Bxc6 dxc6 6. O-O Bg4 7. h3 Bh5 8. g4 Nxg4 9. hxg4 Bxg4 10. Be3 Be7 11. Kg2 f5 12. Qe1 Bxf3+ 13. Kxf3 f4 14. Bd2 Qd7 15. Ke2 g5 16. Bc3 Bf6 17. Nd2 h5 18. Rh1 g4 19. Nc4 Qe6 20. f3 O-O-O 21. Qf2 Kb8 22. a3 g3 23. Qg2 Rdg8 24. Qh3 Qe7 25. Rag1 h4 26. b4 b6 27. Kf1 a5 28. Kg2 Rd8 29. Rb1 a4 30. Nb2 b5 31. Nd1 Kb7 32. Re1 Rh5 33. Bb2 Qf7 34. Nc3 Be7 35. Red1 Ka6 36. Ne2 Kb7 37. Rd2 Qa2 38. Nc3 Qg8 39. Rbd1 Qf7 40. Ne2 c5 41. c3 Rh6 42. Nc1 Qg8 43. bxc5 Bxc5 44. d4 Qc4 45. Nd3 Bd6 46. Bc1 Rhh8 47. dxe5 Be7 48. Nxf4 Rxd2+ 49. Rxd2 Qxc3 50. Qd7 Qxc1 51. Qxb5+ Kc8 52. Rb2 h3+ 53. Nxh3 Qh6 54. Qb7+ Kd7 55. Qb5+ Kc8 56. Qb7+ Kd7 57. e6+ Qxe6 58. Qb5+ Kd8 59. Qb8+ Qc8 60. f4 Rh6 61. e5 Qxb8 62. Rxb8+ Kd7 63. Ra8 Rc6 64. f5 Rc5 65. f6 Rxe5 66. fxe7 Rxe7 67. Rxa4 Re3 68. Nf4 c5 69. Nh5 Kc6 70. Nxg3 Kb5 71. Ra8 Re6 72. Kf3 Ra6 73. Rxa6 Kxa6 74. Ne2 Kb5 75. Nc3+ Kc4 76. a4 Kxc3 77. a5 Kb2 78. a6 c4 79. a7 c3 80. a8=Q c2 81. Qb7+ Ka3 82. Qc7 Kb2 83. Qe5+ Ka2 84. Qd5+ Kb2 85. Qe5+ Ka2 86. Qe1 Kb2 87. Qb4+ Ka2 88. Qc4+ Kb2 89. Qd4+ Ka2 90. Qc3 Kb1 91. Qb3+ Ka1 92. Qa3+ Kb1 93. Qb3+ Ka1 94. Qc3+ Kb1 95. Qd3 Kb2 96. Qd2 Kb1 97. Qb4+ Ka2 98. Qc4+ Kb2 99. Ke3 c1=Q+ 100. Qxc1+ Kxc1 1/2-1/2
+
+
+[Event "13th OceanBullet Team Battle"]
+[Site "https://lichess.org/XRI5GOu3"]
+[Date "2025.07.06"]
+[White "Classic_BOT-v2"]
+[Black "Endogenetic-Bot"]
+[Result "1/2-1/2"]
+[GameId "XRI5GOu3"]
+[UTCDate "2025.07.06"]
+[UTCTime "12:15:05"]
+[WhiteElo "3195"]
+[BlackElo "3201"]
+[WhiteTitle "BOT"]
+[BlackTitle "BOT"]
+[Variant "Standard"]
+[TimeControl "60+0"]
+[ECO "C65"]
+[Opening "Ruy Lopez: Berlin Defense"]
+[Termination "Normal"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. Bxc6 dxc6 6. O-O Bg4 7. h3 Bh5 8. g4 Nxg4 9. hxg4 Bxg4 10. Be3 Be7 11. Kg2 f5 12. Qe1 Bxf3+ 13. Kxf3 f4 14. Bd2 Qd7 15. Ke2 g5 16. Bc3 Bf6 17. Nd2 h5 18. Rh1 g4 19. Nc4 Qe6 20. f3 O-O-O 21. Qf2 Kb8 22. a3 g3 23. Qg2 Rdg8 24. Qh3 Qe7 25. Rag1 h4 26. b4 b6 27. Kf1 a5 28. Kg2 Rd8 29. Rb1 a4 30. Nb2 b5 31. Nd1 Kb7 32. Re1 Rh5 33. Bb2 Qf7 34. Nc3 Be7 35. Red1 Ka6 36. Ne2 Kb7 37. Rd2 Qa2 38. Nc3 Qg8 39. Ne2 Qa2 40. Nc3 Qg8 41. Rbd1 Qf7 42. Ne2 c5 43. c3 Rh6 44. Nc1 Qg8 45. bxc5 Bxc5 46. d4 Qc4 47. Nd3 Bd6 48. dxe5 Be7 49. Bc1 Bg5 50. Kg1 Rhh8 51. e6 Rhg8 52. Qf1 Kc8 53. Qe1 Rdf8 54. Nb4 Be7 55. Nd5 Bc5+ 56. Rd4 h3 57. e7 Re8 58. Bxf4 Bxd4+ 59. Rxd4 Qa2 60. Rd2 Qxa3 61. Rd1 Qb2 62. Rd2 Qa3 63. Qe2 c6 64. Rd1 h2+ 65. Kg2 cxd5 66. Qxb5 Qa2+ 67. Kh3 Qc4 68. Qb8+ Kd7 69. Qd6+ Kc8 70. Qb8+ Kd7 71. Qd6+ Kc8 72. Be5 Rh8+ 73. Kxg3 Reg8+ 74. Kf2 h1=Q 75. Qb8+ Kd7 76. Qd6+ Kc8 77. Qb8+ Kd7 78. e8=Q+ Rxe8 79. Qd6+ Kc8 80. Qb8+ Kd7 81. Qd6+ Kc8 82. Qb8+ Kd7 1/2-1/2
+
 
