@@ -1,38 +1,52 @@
-name: Download bijiy Racing Kings wins
+name: Filter Loss Games from bijiy.pgn
 
 on:
-  workflow_dispatch:
-    inputs:
-      lichess_token:
-        description: 'Your Lichess API token'
-        required: true
+  workflow_dispatch:  # run manually
+  push:
+    paths:
+      - bijiy.pgn       # run when bijiy.pgn changes
 
 jobs:
-  download-games:
+  filter-losses:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
+    - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y jq curl
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
 
-    - name: Fetch Racing Kings Winning Games
-      env:
-        TOKEN: ${{ inputs.lichess_token }}
+    - name: Install python-chess
+      run: pip install python-chess
+
+    - name: Filter losses from bijiy.pgn
       run: |
-        mkdir -p output
-        SINCE=$(date -d '2024-07-10' +%s)000
-        UNTIL=$(date -d '2025-07-10' +%s)000
-        curl -G \
-          -H "Authorization: Bearer $TOKEN" \
-          --data-urlencode "variant=racingKings" \
-          --data-urlencode "result=win" \
-          --data-urlencode "since=$SINCE" \
-          --data-urlencode "until=$UNTIL" \
-          --data-urlencode "pgnInJson=true" \
-          "https://lichess.org/api/games/user/bijiy" \
-          | jq -r '.[] .pgn' > output/bijiy.pgn
-        echo "Saved $(grep -c '^
+        python - <<EOF
+        import chess.pgn
+
+        infile = open("bijiy.pgn", "r", encoding="utf-8")
+        outfile = open("bijiy2.pgn", "w", encoding="utf-8")
+
+        while True:
+            game = chess.pgn.read_game(infile)
+            if game is None:
+                break
+            result = game.headers.get("Result", "")
+            white = game.headers.get("White", "")
+            black = game.headers.get("Black", "")
+            if (white == "bijiy" and result == "0-1") or (black == "bijiy" and result == "1-0"):
+                continue  # skip loss
+            print(game, file=outfile, end="\n\n")
+
+        infile.close()
+        outfile.close()
+        EOF
+
+    - name: Upload bijiy2.pgn
+      uses: actions/upload-artifact@v3
+      with:
+        name: bijiy2-pgn
+        path: bijiy2.pgn
