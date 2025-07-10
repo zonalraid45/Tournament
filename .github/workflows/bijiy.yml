@@ -1,0 +1,38 @@
+name: Download bijiy Racing Kings wins
+
+on:
+  workflow_dispatch:
+    inputs:
+      lichess_token:
+        description: 'Your Lichess API token'
+        required: true
+
+jobs:
+  download-games:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq curl
+
+    - name: Fetch Racing Kings Winning Games
+      env:
+        TOKEN: ${{ inputs.lichess_token }}
+      run: |
+        mkdir -p output
+        SINCE=$(date -d '2024-07-10' +%s)000
+        UNTIL=$(date -d '2025-07-10' +%s)000
+        curl -G \
+          -H "Authorization: Bearer $TOKEN" \
+          --data-urlencode "variant=racingKings" \
+          --data-urlencode "result=win" \
+          --data-urlencode "since=$SINCE" \
+          --data-urlencode "until=$UNTIL" \
+          --data-urlencode "pgnInJson=true" \
+          "https://lichess.org/api/games/user/bijiy" \
+          | jq -r '.[] .pgn' > output/bijiy.pgn
+        echo "Saved $(grep -c '^
