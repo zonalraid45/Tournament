@@ -1,10 +1,10 @@
 name: Filter Loss Games from bijiy.pgn
 
 on:
-  workflow_dispatch:  # run manually
+  workflow_dispatch:  # manual trigger
   push:
     paths:
-      - bijiy.pgn       # run when bijiy.pgn changes
+      - bijiy.pgn       # auto trigger when bijiy.pgn changes
 
 jobs:
   filter-losses:
@@ -46,7 +46,7 @@ jobs:
         EOF
 
     - name: Upload bijiy2.pgn
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: bijiy2-pgn
         path: bijiy2.pgn
