@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-Join a Lichess arena (team-battle) tournament.
+Join a Lichess arena tournament (not a team-battle).
 
 Env-vars expected
 -----------------
-TOR          – your personal Lichess OAuth token (with *tournament:write* scope)
-TMT_ID       – the 8-character tournament ID, e.g. "doF1DMaz"
-TEAM_ID      – the team slug, e.g. "royalracer-fans"
+TOR     – your personal Lichess OAuth token (with *tournament:write* scope)
+TMT_ID  – the 8-character tournament ID, e.g. "MAqOvnzA"
 """
 
 import os
@@ -14,15 +13,13 @@ import sys
 import requests
 
 TOKEN   = os.environ["TOR"].strip('"')
-TMT_ID  = os.getenv("TMT_ID", "doF1DMaz")
-TEAM_ID = os.getenv("TEAM_ID", "royalracer-fans")
+TMT_ID  = os.getenv("TMT_ID", "MAqOvnzA")
 
-URL = f"https://lichess.org/api/tournament/{TMT_ID}/join"   # arena & team-battle endpoint
+URL = f"https://lichess.org/api/tournament/{TMT_ID}/join"
 
 resp = requests.post(
     URL,
     headers={"Authorization": f"Bearer {TOKEN}"},
-    data={"team": TEAM_ID},          # required for team battles
     timeout=15,
 )
 
