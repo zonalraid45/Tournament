@@ -14,7 +14,7 @@ import requests
 TOKEN = os.environ["TOR"].strip('"')
 
 # ✅ Hardcoded tournament ID
-TMT_ID = "MAqOvnzA"  # <-- Replace with your tournament ID if needed
+TMT_ID = "pJwsps3X"  # <-- Replace with your tournament ID if needed
 
 URL = f"https://lichess.org/api/tournament/{TMT_ID}/join"
 
