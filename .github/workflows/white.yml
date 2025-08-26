@@ -24,7 +24,7 @@ jobs:
         # -pgn  → input PGN (loss-free Black games)
         # -bin  → output Polyglot book
         # -min-game 1 keeps every move that occurred at least once
-        polyglot make-book -pgn win.pgn -bin win.bin -min-game 1
+        polyglot make-book -pgn ho.pgn -bin win.bin -min-game 1
 
     # 4️⃣ Upload the resulting book so you can download it
     - name: Upload black.bin
