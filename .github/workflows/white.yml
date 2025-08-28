@@ -1,34 +1,43 @@
-name: Make Black Opening Book           # Workflow title in the Actions tab
+name: Make Opening Book
 
 on:
-  workflow_dispatch:                    # Manual trigger (“Run workflow”)
+  workflow_dispatch:
+    inputs:
+      pgn_file:                   # Input 1: PGN name without extension
+        description: "Enter PGN base name (e.g. ho for ho.pgn)"
+        required: true
+        default: "ho"
+      bin_file:                   # Input 2: BIN name without extension
+        description: "Enter BIN base name (e.g. peu for peu.bin)"
+        required: true
+        default: "book"
 
 jobs:
-  make-black-book:
-    runs-on: ubuntu-latest              # Free Ubuntu runner for each execution
+  make-book:
+    runs-on: ubuntu-latest
 
     steps:
-    # 1️⃣ Pull the repo so we have blacker.pgn
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      # 1️⃣ Pull the repo so we have PGN files
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # 2️⃣ Install the Polyglot utility
-    - name: Install Polyglot
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y polyglot
+      # 2️⃣ Install Polyglot
+      - name: Install Polyglot
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y polyglot
 
-    # 3️⃣ Build the opening book
-    - name: Build black.bin from blacker.pgn
-      run: |
-        # -pgn  → input PGN (loss-free Black games)
-        # -bin  → output Polyglot book
-        # -min-game 1 keeps every move that occurred at least once
-        polyglot make-book -pgn ho.pgn -bin win.bin -min-game 1
+      # 3️⃣ Build the opening book
+      - name: Build BIN from PGN
+        run: |
+          pgn_input="${{ github.event.inputs.pgn_file }}.pgn"
+          bin_output="${{ github.event.inputs.bin_file }}.bin"
+          echo "Building $bin_output from $pgn_input..."
+          polyglot make-book -pgn "$pgn_input" -bin "$bin_output" -min-game 1
 
-    # 4️⃣ Upload the resulting book so you can download it
-    - name: Upload black.bin
-      uses: actions/upload-artifact@v4
-      with:
-        name: win-book               # Artifact name shown in the UI
-        path: win.bin                # File to upload
+      # 4️⃣ Upload the resulting BIN
+      - name: Upload BIN
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.bin_file }}-book
+          path: ${{ github.event.inputs.bin_file }}.bin
