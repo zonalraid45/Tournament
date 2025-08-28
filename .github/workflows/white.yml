@@ -6,11 +6,11 @@ on:
       pgn_file:                   # Input 1: PGN name without extension
         description: "Enter PGN base name (e.g. ho for ho.pgn)"
         required: true
-        default: "ho"
+        default: ""
       bin_file:                   # Input 2: BIN name without extension
         description: "Enter BIN base name (e.g. peu for peu.bin)"
         required: true
-        default: "book"
+        default: ""
 
 jobs:
   make-book:
