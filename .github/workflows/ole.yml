@@ -1,16 +1,15 @@
-name: Automate Kaggle Notebook Stockfish321
+name: Update Kaggle Notebook Stockfish321
 
 on:
   schedule:
-    - cron: '*/59 * * * *' # Every 59 minutes
+    - cron: '*/59 * * * *'
   workflow_dispatch:
 
 jobs:
-  run-cmds-on-kaggle:
+  update-kaggle-stockfish321:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -26,5 +25,8 @@ jobs:
           cp kaggle.json ~/.kaggle/
           chmod 600 ~/.kaggle/kaggle.json
 
-      - name: Generate, Push, and Execute Notebook
-        run: python auto.py
+      - name: Generate notebook from cmd.txt
+        run: python -u auto.py
+
+      - name: Push notebook to Kaggle
+        run: kaggle kernels push -p .
