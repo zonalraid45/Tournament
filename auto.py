@@ -1,10 +1,9 @@
 import os
 import nbformat
+import subprocess
 from kaggle.api.kaggle_api_extended import KaggleApi
-import json
 
 NOTEBOOK_FILENAME = "Stockfish321.ipynb"
-KERNEL_TITLE = "Stockfish321"
 KERNEL_SLUG = "stockfish321"
 USERNAME = "utsadassharma"
 
@@ -22,21 +21,23 @@ with open(NOTEBOOK_FILENAME, "w") as f:
 # Prepare kernel metadata for Kaggle
 metadata = {
     "id": f"{USERNAME}/{KERNEL_SLUG}",
-    "title": KERNEL_TITLE,
+    "title": "Stockfish321",
     "code_file": NOTEBOOK_FILENAME,
     "language": "python",
     "kernel_type": "notebook",
     "is_private": "true"
 }
+import json
 with open("kernel-metadata.json", "w") as f:
     json.dump(metadata, f)
 
-# Push notebook to Kaggle and execute it
+# Authenticate API (required for CLI to work properly)
 api = KaggleApi()
 api.authenticate()
-api.kernels_push_kernel(path=".")
 
-# Start notebook execution (automated run on Kaggle)
-api.kernels_start_kernel(f"{USERNAME}/{KERNEL_SLUG}")
+# Use kaggle CLI to push the notebook
+subprocess.run([
+    "kaggle", "kernels", "push", "-p", "."
+], check=True)
 
-print(f"Notebook pushed and executed: https://www.kaggle.com/code/{USERNAME}/{KERNEL_SLUG}")
+print(f"Notebook pushed: https://www.kaggle.com/code/{USERNAME}/{KERNEL_SLUG}")
