@@ -1,10 +1,10 @@
 name: Run Stockfish321 Notebook Commands on Kaggle
 
 on:
-  workflow_dispatch:  # allows manual trigger
-  schedule:
-    # Runs every 59 minutes
-    - cron: '*/59 * * * *'
+  - workflow_dispatch: # allows manual trigger
+  - schedule:
+      # Runs every 59 minutes
+      - cron: '*/59 * * * *'
 
 jobs:
   run-notebook:
@@ -14,23 +14,23 @@ jobs:
       KAGGLE_KEY_JSON: ${{ secrets.KAGGLE_KEY_JSON }}
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Install Kaggle CLI
-      run: |
-        python -m pip install --upgrade pip
-        pip install kaggle nbformat
+      - name: Install Kaggle CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install kaggle nbformat
 
-    - name: Authenticate Kaggle
-      run: |
-        mkdir -p ~/.kaggle
-        echo "${KAGGLE_KEY_JSON}" > ~/.kaggle/kaggle.json
-        chmod 600 ~/.kaggle/kaggle.json
+      - name: Authenticate Kaggle
+        run: |
+          mkdir -p ~/.kaggle
+          echo "${KAGGLE_KEY_JSON}" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
 
-    - name: Append commands from cmd.txt to existing notebook
-      run: |
-        python - <<EOF
+      - name: Append commands from cmd.txt to existing notebook
+        run: |
+          python <<'EOF'
 import nbformat as nbf
 
 nb = nbf.read("Stockfish321.ipynb", as_version=4)
@@ -42,10 +42,10 @@ with open("cmd.txt") as f:
 nbf.write(nb, "Stockfish321.ipynb")
 EOF
 
-    - name: Push notebook to Kaggle
-      run: |
-        kaggle kernels push -p . --kernel Stockfish321 --quiet
+      - name: Push notebook to Kaggle
+        run: |
+          kaggle kernels push -p . --kernel Stockfish321 --quiet
 
-    - name: Run notebook on Kaggle and get output
-      run: |
-        kaggle kernels output Stockfish321 -p /tmp/stockfish_output --quiet
+      - name: Run notebook on Kaggle and get output
+        run: |
+          kaggle kernels output Stockfish321 -p /tmp/stockfish_output --quiet
