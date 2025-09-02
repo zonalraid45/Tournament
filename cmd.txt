@@ -1,0 +1,7 @@
+!cp -r /kaggle/input/mypant/Myshirt-main /kaggle/working/
+!cp /kaggle/input/configs/config.yml /kaggle/working/Myshirt-main/config.yml
+!ls /kaggle/working/Myshirt-main/
+!chmod +x /kaggle/working/Myshirt-main/engines/stockfish
+!python -m pip install -r /kaggle/working/Myshirt-main/requirements.txt
+%cd /kaggle/working/Myshirt-main
+!python user_interface.py
