@@ -1,5 +1,4 @@
 name: Run Stockfish321 Notebook Commands on Kaggle
-
 on:
   workflow_dispatch:  # allows manual trigger
   schedule:
