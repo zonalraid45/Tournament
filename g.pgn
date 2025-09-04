@@ -1,4 +1,24 @@
-[Site "https://lichess.org/ZPatdCa3#69"]
-[UTCDate "2025.09.04"]
-[UTCTime "05:12:47"]
-1. d4 Nf6 2. Bf4 d5 3. e3 c5 4. h3 Qb6 5. Nc3 a6 6. Na4 Qa5+ 7. c3 c4 8. g4 e6 9. g5 Ne4 10. f3 Nd6 11. h4 Be7 12. Ne2 O-O 13. Bh3 Nc6 14. Kf2 Qd8 15. Qg1 b5 16. Nc5 b4 17. Qh2 Nb5 18. g6 Bxc5 19. gxh7+ Kh8 20. dxc5 Qxh4+ 21. Bg3 Qe7 22. Rad1 bxc3 23. bxc3 Qf6 24. Nd4 Ncxd4 25. cxd4 Nc3 26. Ra1 Ne4+ 27. Ke2 Nc3+ 28. Kf2 Ne4+ 29. Ke2 Nxg3+ 30. Qxg3 Bd7 31. Rhb1 Qh6 32. Rb7 Ba4 33. Rb6 Rae8 34. Rg1 Bb5 35. Kd2 c3+ 36. Kc2 Ba4+ 37. Kd3 Bb5+ 38. Kc2 Ba4+ 39. Kd3 a5 40. Bf5 g6 41. Bh3 c2 42. c6 f5 43. Qe5+ Qg7 44. Qd6 Rc8 45. Kd2 f4 46. Bxe6 fxe3+ 47. Kd3 e2 48. f4 c1=Q 49. Rxc1 Bd1 50. Bg4 e1=Q 51. Rxd1 Qg3+ 52. Kc2 Qxg4 53. Qxd5 Rxf4 54. Rd3 Rf2+ 55. Kc3 Qe2 56. Qb3 Qf7 57. d5 Qfe7 58. Kc4 Rf4+ 59. Kb5 Qxd3+ 60. Qxd3 Rb4+ 61. Kxa5 Qc5+ 62. Qb5 Ra8+ 63. Ra6 Qxb5# 0-1 
+[Event "1st Hyper Arena"]
+[Site "https://lichess.org/ojWK5cnD"]
+[Date "2025.07.24"]
+[White "MateWithRook_SF17DEV"]
+[Black "Exogenetic-Bot"]
+[Result "1-0"]
+[GameId "ojWK5cnD"]
+[UTCDate "2025.07.24"]
+[UTCTime "17:37:02"]
+[WhiteElo "3204"]
+[BlackElo "3154"]
+[WhiteRatingDiff "+5"]
+[BlackRatingDiff "-5"]
+[WhiteTitle "BOT"]
+[BlackTitle "BOT"]
+[Variant "Standard"]
+[TimeControl "30+0"]
+[ECO "C65"]
+[Opening "Ruy Lopez: Berlin Defense"]
+[Termination "Normal"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. Bxc6 dxc6 6. O-O Bg4 7. h3 Bh5 8. g4 Nxg4 9. hxg4 Bxg4 10. Be3 Be7 11. Kg2 f5 12. Qe1 Bxf3+ 13. Kxf3 f4 14. Bd2 Qd7 15. Ke2 g5 16. Bc3 Bf6 17. Nd2 h5 18. Rh1 g4 19. Nc4 Qe6 20. f3 O-O-O 21. Qf2 Kb8 22. a3 g3 23. Qg2 Rdg8 24. Qh3 Qe7 25. Rag1 h4 26. Rg2 Rh5 27. Kf1 b6 28. Re2 Rgh8 29. Kg2 a5 30. b4 a4 31. Nb2 Kb7 32. Bd2 Ra8 33. Rd1 Qf7 34. Bc1 Rhh8 35. d4 Rad8 36. Rdd2 Bg7 37. Nxa4 Qa2 38. Nb2 Qb1 39. Rd1 Rxd4 40. Rxd4 exd4 41. Nd3 Be5 42. Kg1 Bd6 43. Qe6 h3 44. Qb3 Qa1 45. Re1 Be7 46. e5 Ka7 47. a4 c5 48. a5 b5 49. bxc5 b4 50. e6 Bxc5 51. Qc4 Rh5 52. e7 Qc3 53. Qxc3 h2+ 54. Kg2 dxc3 55. Nxc5 b3 56. Nxb3 Rh8 57. Bxf4 Kb7 58. Bxg3 h1=B+ 59. Rxh1 Re8 60. Re1 Ka6 61. Bxc7 Kb5 62. Bg3 Kb4 63. Re5 Ka3 64. a6 Rg8 65. e8=Q Rxg3+ 66. Kxg3 Kb2 67. Qa4 Kxc2 68. Qa2+ Kd3 69. Qe2# 1-0
+
+
