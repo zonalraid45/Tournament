@@ -3,11 +3,11 @@ name: Make Opening Book
 on:
   workflow_dispatch:
     inputs:
-      pgn_file:                   # Input 1: PGN name without extension
+      pgn_file:
         description: "Enter PGN base name (e.g. ho for ho.pgn)"
         required: true
         default: ""
-      bin_file:                   # Input 2: BIN name without extension
+      bin_file:
         description: "Enter BIN base name (e.g. peu for peu.bin)"
         required: true
         default: ""
@@ -17,25 +17,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Pull the repo so we have PGN files
+      # 1️⃣ Checkout the repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Install Polyglot
-      - name: Install Polyglot
+      # 2️⃣ Install Polyglot and pgn-extract
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y polyglot
+          sudo apt-get install -y polyglot pgn-extract
 
-      # 3️⃣ Build the opening book
-      - name: Build BIN from PGN
+      # 3️⃣ Clean PGN (skip invalid games)
+      - name: Clean PGN
         run: |
           pgn_input="${{ github.event.inputs.pgn_file }}.pgn"
-          bin_output="${{ github.event.inputs.bin_file }}.bin"
-          echo "Building $bin_output from $pgn_input..."
-          polyglot make-book -pgn "$pgn_input" -bin "$bin_output" -min-game 1
+          clean_pgn="clean_${{ github.event.inputs.pgn_file }}.pgn"
+          echo "Filtering invalid games from $pgn_input..."
+          pgn-extract "$pgn_input" -o "$clean_pgn" -k1
 
-      # 4️⃣ Upload the resulting BIN
+      # 4️⃣ Build BIN from cleaned PGN
+      - name: Build BIN from PGN
+        run: |
+          clean_pgn="clean_${{ github.event.inputs.pgn_file }}.pgn"
+          bin_output="${{ github.event.inputs.bin_file }}.bin"
+          echo "Building $bin_output from $clean_pgn..."
+          polyglot make-book -pgn "$clean_pgn" -bin "$bin_output" -min-game 1
+
+      # 5️⃣ Upload the resulting BIN
       - name: Upload BIN
         uses: actions/upload-artifact@v4
         with:
