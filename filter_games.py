@@ -3,10 +3,14 @@ import argparse
 import chess.pgn
 
 def filter_games(input_pgn, output_pgn, result_type, username):
+    """
+    Filter PGN games for a specific username based on result (win/loss).
+    Saves the filtered games to output_pgn.
+    """
     result_type = result_type.lower()
-    username = username.lower()
+    username = username.strip().lower()
     if result_type not in ("win", "loss"):
-        raise ValueError("Result must be 'win' or 'loss'")
+        raise ValueError("Result type must be 'win' or 'loss'")
 
     total = kept = 0
 
@@ -19,26 +23,30 @@ def filter_games(input_pgn, output_pgn, result_type, username):
                 break
             total += 1
 
-            white = game.headers.get("White", "").lower()
-            black = game.headers.get("Black", "").lower()
-            result = game.headers.get("Result", "")
+            white = game.headers.get("White", "").strip().lower()
+            black = game.headers.get("Black", "").strip().lower()
+            result = game.headers.get("Result", "").strip()
 
-            # Determine if you won or lost
             you_are_white = (white == username)
             you_are_black = (black == username)
 
-            if you_are_white or you_are_black:
-                if result_type == "win":
-                    if (you_are_white and result == "1-0") or (you_are_black and result == "0-1"):
-                        outfile.write(str(game) + "\n\n")
-                        kept += 1
-                elif result_type == "loss":
-                    if (you_are_white and result == "0-1") or (you_are_black and result == "1-0"):
-                        outfile.write(str(game) + "\n\n")
-                        kept += 1
+            # Skip games where username is not involved
+            if not (you_are_white or you_are_black):
+                continue
 
-    print(f"✅ Found {kept}/{total} games matching {result_type} for '{username}'.")
-    print(f"📁 Saved to {output_pgn}")
+            # Determine if this game is a win or loss for username
+            if result_type == "win":
+                if (you_are_white and result == "1-0") or (you_are_black and result == "0-1"):
+                    outfile.write(str(game) + "\n\n")
+                    kept += 1
+            elif result_type == "loss":
+                if (you_are_white and result == "0-1") or (you_are_black and result == "1-0"):
+                    outfile.write(str(game) + "\n\n")
+                    kept += 1
+
+    print(f"✅ Found {kept}/{total} games matching '{result_type}' for username '{username}'.")
+    print(f"📁 Saved filtered games to {output_pgn}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Filter PGN games by win/loss for a specific username.")
