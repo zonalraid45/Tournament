@@ -3,14 +3,7 @@ name: Filter PGN Games by Result
 on:
   workflow_dispatch:
     inputs:
-      result:
-        description: "Select which result to filter"
-        required: true
-        type: choice
-        options:
-          - win
-          - loss
-        default: win
+
       input_pgn:
         description: "Path to input PGN file"
         required: true
@@ -40,8 +33,7 @@ jobs:
           python filter_games.py \
             --input "${{ github.event.inputs.input_pgn }}" \
             --output "${{ github.event.inputs.output_pgn }}" \
-            --result "${{ github.event.inputs.result }}" \
-
+           
       - name: Upload filtered PGN
         uses: actions/upload-artifact@v4
         with:
