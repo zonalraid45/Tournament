@@ -1,0 +1,50 @@
+name: Filter PGN Games by Result
+
+on:
+  workflow_dispatch:
+    inputs:
+      result:
+        description: "Select which result to filter"
+        required: true
+        type: choice
+        options:
+          - win
+          - loss
+        default: win
+      input_pgn:
+        description: "Path to input PGN file"
+        required: true
+        default: "games/input.pgn"
+      output_pgn:
+        description: "Path to output PGN file"
+        required: true
+        default: "games/output_filtered.pgn"
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install python-chess
+
+      - name: Run filter script
+        run: |
+          python filter_games.py \
+            --input "${{ github.event.inputs.input_pgn }}" \
+            --output "${{ github.event.inputs.output_pgn }}" \
+            --result "${{ github.event.inputs.result }}" \
+            --username "Kingznight"
+
+      - name: Upload filtered PGN
+        uses: actions/upload-artifact@v4
+        with:
+          name: filtered_pgn
+          path: ${{ github.event.inputs.output_pgn }}
