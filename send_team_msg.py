@@ -10,7 +10,7 @@ token = os.getenv("LICHESS_KEY", "").strip('"').strip("'")
 if not token:
     sys.exit("❌  LICHESS_KEY is missing!")
 
-TEAM_ID = "jkl"
+TEAM_ID = "jekl"
 MSG_FILE = "t.txt"
 
 # ── read message from file ────────────────────────────────────────────
