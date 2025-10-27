@@ -12,7 +12,7 @@ import os, sys, time, textwrap, requests
 from datetime import datetime
 import pytz
 
-TEAM_ID = "jkl"
+TEAM_ID = "testingsgirl"
 MSG_FILE = "t.txt"
 
 # ── setup timezone ────────────────────────────────────────────────────
@@ -33,28 +33,14 @@ if not token:
 # ── read message ──────────────────────────────────────────────────────
 if not os.path.exists(MSG_FILE):
     sys.exit(f"❌  {MSG_FILE} not found! Please create it with your message.")
+
 with open(MSG_FILE, "r", encoding="utf-8") as f:
     MESSAGE = f.read().strip()
+
 if not MESSAGE:
     sys.exit("❌  Message file is empty!")
 
-# ── wait until 5:30 PM, October 27 ────────────────────────────────────
+# ── wait until 5:30 PM IST, October 27 ────────────────────────────────
 TARGET_DAY, TARGET_MONTH, TARGET_HOUR, TARGET_MINUTE = 27, 10, 17, 30
 
 while True:
-    now = get_time()
-    if (
-        now.day == TARGET_DAY and
-        now.month == TARGET_MONTH and
-        now.hour == TARGET_HOUR and
-        now.minute == TARGET_MINUTE
-    ):
-        log("🎯 It's 5:30 PM IST — sending team message now!")
-        break
-    else:
-        log("Waiting... current IST time not yet 5:30 PM, Oct 27.")
-        time.sleep(60)
-
-# ── sanity-check token ────────────────────────────────────────────────
-acct = requests.get(
-    "htt
