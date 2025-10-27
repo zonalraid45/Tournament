@@ -1,36 +1,19 @@
 #!/usr/bin/env python3
 """
-Continuously wait until 5:30 PM IST, October 27,
-then broadcast the message from t.txt to the Lichess team `testingsgirl`.
-
-Requires:
-- Environment variable LICHESS_KEY with team:write scope
-- File t.txt containing the message text
+Broadcast the message from t.txt to the Lichess team `testingsgirl`.
+Requires a secret LICHESS_KEY holding a token with team:write scope.
 """
 
-import os, sys, time, textwrap, requests
-from datetime import datetime
-import pytz
+import os, sys, textwrap, requests
 
-TEAM_ID = "testingsgirl"
-MSG_FILE = "t.txt"
-
-# ── setup timezone ────────────────────────────────────────────────────
-IST = pytz.timezone("Asia/Kolkata")
-
-def get_time():
-    """Return current IST time"""
-    return datetime.now(IST)
-
-def log(msg):
-    print(f"[{get_time().strftime('%I:%M %p, %d %b %Y')}] {msg}", flush=True)
-
-# ── check token ───────────────────────────────────────────────────────
 token = os.getenv("LICHESS_KEY", "").strip('"').strip("'")
 if not token:
     sys.exit("❌  LICHESS_KEY is missing!")
 
-# ── read message ──────────────────────────────────────────────────────
+TEAM_ID = "jkl"
+MSG_FILE = "t.txt"
+
+# ── read message from file ────────────────────────────────────────────
 if not os.path.exists(MSG_FILE):
     sys.exit(f"❌  {MSG_FILE} not found! Please create it with your message.")
 
@@ -40,7 +23,33 @@ with open(MSG_FILE, "r", encoding="utf-8") as f:
 if not MESSAGE:
     sys.exit("❌  Message file is empty!")
 
-# ── wait until 5:30 PM IST, October 27 ────────────────────────────────
-TARGET_DAY, TARGET_MONTH, TARGET_HOUR, TARGET_MINUTE = 27, 10, 17, 30
+# ── sanity-check the token ────────────────────────────────────────────
+acct = requests.get(
+    "https://lichess.org/api/account",
+    headers={"Authorization": f"Bearer {token}"},
+    timeout=10,
+)
+print("Account check HTTP:", acct.status_code)
+if acct.status_code != 200:
+    sys.exit("❌  Token invalid or lacks team:write")
 
-while True:
+# ── send the team-wide PM ─────────────────────────────────────────────
+url = f"https://lichess.org/team/{TEAM_ID}/pm-all"  # ← no /api/
+headers = {
+    "Authorization": f"Bearer {token}",
+    "Content-Type": "application/x-www-form-urlencoded",
+}
+
+resp = requests.post(url, headers=headers, data={"message": MESSAGE}, timeout=10)
+
+# ── report result ─────────────────────────────────────────────────────
+if resp.status_code in (200, 204):
+    print("✅  Team message sent successfully.")
+else:
+    print(textwrap.dedent(f"""
+        ❌  Failed to send message.
+        HTTP {resp.status_code}
+        First 500 bytes:
+        {resp.text[:500]}
+    """))
+    resp.raise_for_status()
