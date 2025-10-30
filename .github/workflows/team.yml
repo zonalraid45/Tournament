@@ -1,26 +1,64 @@
-name: Send Lichess Team Message
+name: Send Lichess Messages from list.txt
 
 on:
-  # fire when the pusher bot updates .trigger.log
-  push:
-    paths:
-      - .trigger.log
-
-  # (optional) still fire on schedule in case cron starts working
+  workflow_dispatch:
   schedule:
-    - cron: '30 16 * * *'   # 20:40 IST = 15:10 UTC
-
-  workflow_dispatch: {}     # manual trigger button
+    - cron: "0 * * * *"  # ⏰ runs every hour at minute 0
 
 jobs:
-  message:
+  send_messages:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          python-version: '3.11'
-      - run: pip install requests
-      - env:
+          token: ${{ secrets.GH }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      # 🕒 Time check — cancel if before 31 Oct 2025 18:30 IST
+      - name: Check time (cancel if before 31 Oct 2025 18:30 IST)
+        id: timecheck
+        run: |
+          export TZ='Asia/Kolkata'
+          current_ist_epoch=$(date '+%s')
+          target_ist_epoch=$(date -d "2025-10-31 20:45:00" '+%s')
+          echo "🎯 Target IST : 2025-10-31 20:45:00 IST"
+          echo "⏳ Not yet 31 Oct 2025 20:45 IST — about ${hrs}h ${mins}m left. Cancelling workflow."
+ 
+
+          if [ "$current_ist_epoch" -lt "$target_ist_epoch" ]; then
+            remaining=$((target_ist_epoch - current_ist_epoch))
+            hrs=$((remaining / 3600))
+            mins=$(((remaining % 3600) / 60))
+            echo "⏳ Not yet 31 Oct 2025 18:30 IST — about ${hrs}h ${mins}m left. Cancelling workflow."
+            exit 78
+          else
+            echo "✅ Target time reached, continuing..."
+          fi
+
+      # 📤 Send messages
+      - name: Send messages from list.txt
+        env:
           LICHESS_KEY: ${{ secrets.LICHESS_KEY }}
-        run: python send_team_msg.py
+        run:  python -u send_team_msg.py
+          
+      # 🧹 Delete msg.txt and list.txt from repo permanently
+      - name: Delete msg.txt and list.txt from repo
+        if: success()
+        run: |
+          echo "🧹 Deleting msg.txt and list.txt from repo..."
+          rm -f msg.txt
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add -u
+          git commit -m "🧹 Auto-delete msg.txt and list.txt after sending messages" || echo "No changes to commit"
+          git push
+          echo "✅ Files deleted and pushed successfully."
