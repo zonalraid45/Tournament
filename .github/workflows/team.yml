@@ -55,7 +55,7 @@ jobs:
         if: success()
         run: |
           echo "🧹 Deleting msg.txt and list.txt from repo..."
-          rm -f msg.txt
+          rm -f t.txt
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add -u
