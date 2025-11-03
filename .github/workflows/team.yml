@@ -3,7 +3,7 @@ name: Send Lichess Messages from list.txt
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 16 * * *"  # ⏰ Runs daily at 21:45 IST
+    - cron: "40 16 * * *"  # ⏰ Runs daily at 21:45 IST
 
 jobs:
   send_messages:
@@ -29,13 +29,13 @@ jobs:
         run: |
           export TZ='Asia/Kolkata'
           current_ist_epoch=$(date '+%s')
-          target_ist_epoch=$(date -d "2025-10-31 21:30:00" '+%s')
+          target_ist_epoch=$(date -d "2025-11-03 21:30:00" '+%s')
 
           if [ "$current_ist_epoch" -lt "$target_ist_epoch" ]; then
             remaining=$((target_ist_epoch - current_ist_epoch))
             hrs=$((remaining / 3600))
             mins=$(((remaining % 3600) / 60))
-            echo "⏳ Not yet 31 Oct 2025 21:30 IST — about ${hrs}h ${mins}m left. Cancelling workflow."
+            echo "⏳ Not yet 3rd november 2025 21:30 IST — about ${hrs}h ${mins}m left. Cancelling workflow."
             exit 78
           else
             echo "✅ Target time reached, continuing..."
